@@ -1,11 +1,9 @@
 <script>
-
-    import Carousel from '../components/Carousel.svelte';
-    import Hero from '../components/Hero.svelte';
+    import Carousel from '../components/Carousel2.svelte';
+    // import Hero from '../components/Hero.svelte';
     /** @type {import('./$types').PageData} */
-    export let data;
+    // export let data;
 
 </script>
-
-<Hero/>
+<!-- <Hero/> -->
 <Carousel />

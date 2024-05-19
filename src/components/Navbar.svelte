@@ -30,15 +30,17 @@
         },
     ]
 </script>
+
+
 <div class="max-w-screen-lg mx-auto">
-<nav class="relative p-4 flex justify-between items-center bg-white z-10">
+<nav class="relative p-4 flex justify-between items-center bg-black lg:bg-white bg-opacity-50 z-10">
     <a class="font-bold leading-none" href="/">      
-        <p class="font-semibold">
+        <p class="font-semibold text-white lg:text-black">
             Banie<span class="text-indigo-400">susu</span> 
         </p>
     </a>
     <div class="lg:hidden">
-        <button on:click={() => backdrop = !backdrop} class="navbar-burger flex items-center text-blue-600 p-3">
+        <button on:click={() => backdrop = !backdrop} class="navbar-burger flex items-center text-white p-3">
             <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <title>Mobile menu</title>
                 <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
