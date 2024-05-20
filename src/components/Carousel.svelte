@@ -53,16 +53,25 @@
 
     carouseInterval = setInterval(next, intervalTime)
 </script>
-
-<div class="relative" 
+<div class="relative mt-[-72px] lg:mt-[0px]" 
     on:touchstart={touchstart}
     on:touchmove={touchmove}
 >
-    <div class="relative justify-center relative w-full bg-gray-200">
-        <div class="relative flex items-center overflow-hidden h-[200px] lg:h-[500px]">
+    <div class="relative justify-center w-full bg-gray-200">
+        <div class="relative flex items-center overflow-hidden h-[280px] lg:h-[500px]">
+            
             {#each images as {src},i}
             {#if currentId === i}
                 <img {src} alt="1" in:fade>
+                <div class="absolute flex justify-center w-full" in:fade>
+                    <div class="w-full max-w-screen-lg text-white p-4">
+                        <p class="text-lg">대형견전문 프리미엄샵 큰개닷컴</p>
+                        <p class="text-3xl lg:text-5xl">수도권에서 만나는 대형견</p>
+                        <button class="bg-transparent border border-white font-semibold mt-2 py-2 px-4 hover:bg-white hover:text-black transition duration-300">
+                            바로보기
+                        </button>
+                    </div>
+                </div>
             {/if}
             {/each}
             <div class="papagination flex justify-center">

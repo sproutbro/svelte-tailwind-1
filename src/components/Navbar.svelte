@@ -49,33 +49,37 @@
 
 <svelte:window bind:scrollY bind:outerWidth on:scroll={scroll}/>
 <div class="max-w-screen-lg mx-auto">
+    <div class="overflow-hidden h-[72px]">
 {#if nav}
-<div class="fixed z-20 w-full bg-black lg:bg-white bg-opacity-50">    
-<nav class="relative p-4 flex justify-between items-center z-10">
-    <a class="font-bold leading-none" href="/">      
-        <p class="font-semibold text-white lg:text-black">
-            Banie<span class="text-indigo-400">susu</span> 
-        </p>
-    </a>
-    <div class="lg:hidden">
-        <button on:click={() => backdrop = !backdrop} class="navbar-burger flex items-center text-white p-3">
-            <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <title>Mobile menu</title>
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-            </svg>
-        </button>
+    <div class="fixed left-0 z-20 w-full bg-black lg:bg-white bg-opacity-50">
+        <nav class="relative max-w-screen-lg mx-auto p-4 flex justify-between items-center z-10">
+            <a class="font-bold leading-none z-10" href="/">      
+                <p class="font-semibold text-white lg:text-black">
+                    Banie<span class="text-indigo-400">susu</span> 
+                </p>
+            </a>
+            <div class="lg:hidden">
+                <button on:click={() => backdrop = !backdrop} class="navbar-burger flex items-center text-white p-3">
+                    <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <title>Mobile menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                    </svg>
+                </button>
+            </div>
+            <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:justify-center lg:mx-auto lg:items-center lg:pr-20 lg:w-full lg:space-x-6">
+                {#each nav_items as nav_item}
+                    <li><a class={$page.url.pathname === nav_item.path ? "text-sm text-blue-600 font-bold" : "text-sm text-gray-400 hover:text-gray-500"} href={nav_item.path}>{nav_item.name}</a></li>
+                {/each}
+            </ul>
+            <div class="hidden lg:flex lg:z-10">
+                <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="/signin">Sign In</a>
+                <a class="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="/signup">Sign up</a>
+            </div>
+        </nav>
     </div>
-    <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-        {#each nav_items as nav_item}
-            <li><a class={$page.url.pathname === nav_item.path ? "text-sm text-blue-600 font-bold" : "text-sm text-gray-400 hover:text-gray-500"} href={nav_item.path}>{nav_item.name}</a></li>
-        {/each}
-    </ul>
-    <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="/signin">Sign In</a>
-    <a class="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="/signup">Sign up</a>
-</nav>
-</div>
-<div class={`fixed lg:relative lg:h-[68px]`}></div>
+    <div class={`relative h-[72px] lg:h-[68px]`} />
 {/if}
+</div>
 
 {#if backdrop}
 <div transition:fade class="navbar-menu relative z-50">
