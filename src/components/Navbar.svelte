@@ -2,7 +2,11 @@
     import { page } from '$app/stores';
     import { fade } from 'svelte/transition';
     let backdrop = false;
-    
+    $: outerWidth = 0
+    $: scrollY = 0
+    let nav = true
+    let scrollYCopy = 0
+
     let nav_items = [
         {
             "path": "/",
@@ -29,11 +33,25 @@
             "name": "기타견종상식"
         },
     ]
+
+    //스크롤때 실행
+    function scroll() {
+        // 넓이가 lg 이하일때만 실행
+        if(outerWidth < 976) {
+            // scroll에 따른 nav toggle
+            nav = (scrollYCopy > scrollY) ? true : false
+            scrollYCopy = scrollY
+        } else {
+            nav = true
+        }
+    }
 </script>
 
-
+<svelte:window bind:scrollY bind:outerWidth on:scroll={scroll}/>
 <div class="max-w-screen-lg mx-auto">
-<nav class="relative p-4 flex justify-between items-center bg-black lg:bg-white bg-opacity-50 z-10">
+{#if nav}
+<div class="fixed z-20 w-full bg-black lg:bg-white bg-opacity-50">    
+<nav class="relative p-4 flex justify-between items-center z-10">
     <a class="font-bold leading-none" href="/">      
         <p class="font-semibold text-white lg:text-black">
             Banie<span class="text-indigo-400">susu</span> 
@@ -55,6 +73,10 @@
     <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="/signin">Sign In</a>
     <a class="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="/signup">Sign up</a>
 </nav>
+</div>
+<div class={`fixed lg:relative lg:h-[68px]`}></div>
+{/if}
+
 {#if backdrop}
 <div transition:fade class="navbar-menu relative z-50">
     <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>

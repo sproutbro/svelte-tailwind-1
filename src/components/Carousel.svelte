@@ -1,4 +1,11 @@
 <script>
+    import { fade } from "svelte/transition";
+
+    let currentId = 0;
+    let intervalTime = 5000;
+    let startX = 0;
+    let carouseInterval = null;
+
     let images = [
         {
             "src" : "./carousel/1.jpg"
@@ -11,36 +18,84 @@
         },
     ];
 
-    let currentId = 1;
-    let slides
-
     function prev() {
-        let move = currentId * 100;
-        slides.style.transform = `translateX(100%)`;
-        slides.style.transition = "1s";
+        currentId === 0 ? currentId = images.length - 1 : currentId--
+        resetInterval()
     }
 
     function next() {
-        let move = currentId * 100;
-        slides.style.transform = `translateX(-100%)`;
-        slides.style.transition = "1s";
+        currentId === images.length - 1 ? currentId = 0 : currentId++
+        resetInterval()
     }
+
+    function handlePapagination(i) {
+        currentId = i
+        resetInterval()
+    }
+
+    function touchmove(e) {
+        let currentX = e.touches[0].clientX
+        let diffX = currentX - startX
+        
+        if(diffX < -50) prev()
+        if(diffX > 50) next()
+    }
+
+    function touchstart(e) {
+        startX = e.touches[0].clientX;
+        resetInterval()
+    }
+
+    function resetInterval() {
+        clearInterval(carouseInterval)
+        carouseInterval = setInterval(next, intervalTime)
+    }
+
+    carouseInterval = setInterval(next, intervalTime)
 </script>
 
-<div class="fixed h-[300px] bg-gray-200 inset-0 lg:relative lg:h-[700px]">
-    <div class="flex justify-center items-center w-full h-full" bind:this={slides}>
-        {#each images as {src}}
-            <div class="flex w-full h-full bg-red-100">
-                <div class={`h-full w-full bg-center bg-cover bg-[url('${src}')] inset-0`}></div>
+<div class="relative" 
+    on:touchstart={touchstart}
+    on:touchmove={touchmove}
+>
+    <div class="relative justify-center relative w-full bg-gray-200">
+        <div class="relative flex items-center overflow-hidden h-[200px] lg:h-[500px]">
+            {#each images as {src},i}
+            {#if currentId === i}
+                <img {src} alt="1" in:fade>
+            {/if}
+            {/each}
+            <div class="papagination flex justify-center">
+            {#each images as _,i}
+            {#if currentId === i}
+                <button class="active" on:click={() => handlePapagination(i)} />            
+            {:else}
+                <button on:click={() => handlePapagination(i)} />            
+            {/if}
+            {/each}
             </div>
-        {/each}
-        <!-- <div class="absolute bg-blue-100 inset-0" bind:this={slides}>
-            <div class={`h-full w-full bg-center bg-cover bg-[url('${src}')] inset-0`}></div>
-        </div> -->
+        </div>
     </div>
 </div>
-<div class="mt-[230px] lg:m-0" />
-<div>
-    <button on:click={prev}>prev</button>
-    <button on:click={next}>next</button>
-</div>
+
+<style>
+    .papagination {
+        position: absolute;
+        bottom: 0;
+        padding-bottom: 8px;
+        width: 100%;
+    }
+    .papagination button {
+        margin: 0 4px;
+        width: 14px;
+        height: 14px;
+        border: 0;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        cursor: pointer;
+    }
+    .papagination .active {
+        background-color: rgba(255, 0, 0, 0.8);
+    }
+</style>
